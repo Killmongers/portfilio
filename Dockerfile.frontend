@@ -1,21 +1,21 @@
-# Frontend Dockerfile for Next.js with automatic package installation
+# Frontend Dockerfile with dependency resolution fixes
 FROM node:18-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json package-lock.json* .npmrc* ./
 
-# Install dependencies
-RUN \
-  if [ -f package-lock.json ]; then npm ci --only=production --frozen-lockfile; \
-  else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control." && npm install --only=production; \
-  fi
+# Configure npm for dependency resolution
+RUN npm config set legacy-peer-deps true
+RUN npm config set auto-install-peers true
+
+# Install dependencies with legacy peer deps
+RUN npm install --legacy-peer-deps --frozen-lockfile
 
 # Rebuild the source code only when needed
 FROM base AS builder
@@ -23,11 +23,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Install all dependencies (including dev dependencies for build)
-RUN \
-  if [ -f package-lock.json ]; then npm ci --frozen-lockfile; \
-  else npm install; \
-  fi
+# Configure npm
+RUN npm config set legacy-peer-deps true
 
 # Build the application
 ENV NEXT_TELEMETRY_DISABLED 1
@@ -50,7 +47,6 @@ RUN mkdir .next
 RUN chown nextjs:nodejs .next
 
 # Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 

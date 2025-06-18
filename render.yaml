@@ -1,38 +1,37 @@
-# Render Blueprint for deployment with automatic package installation
+# Render Blueprint for deployment with dependency resolution fixes
 services:
+  # Frontend Service  
+  - type: web
+    name: portfolio-frontend
+    env: node
+    plan: free
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
+      - key: NPM_CONFIG_LEGACY_PEER_DEPS
+        value: true
+
   # Backend Service
   - type: web
     name: portfolio-backend
-    env: docker
-    dockerfilePath: ./Dockerfile.backend
+    env: python
     plan: free
+    buildCommand: pip install -r scripts/requirements.txt
+    startCommand: python scripts/fastapi_backend.py
     healthCheckPath: /health
     envVars:
       - key: PYTHONPATH
-        value: /app
+        value: /opt/render/project/src
       - key: PORT
         value: 8000
       - key: PYTHONUNBUFFERED
         value: 1
     disk:
       name: portfolio-data
-      mountPath: /app/data
+      mountPath: /opt/render/project/src/data
       sizeGB: 1
-
-  # Frontend Service  
-  - type: web
-    name: portfolio-frontend
-    env: docker
-    dockerfilePath: ./Dockerfile.frontend
-    plan: free
-    envVars:
-      - key: NODE_ENV
-        value: production
-      - key: NEXT_TELEMETRY_DISABLED
-        value: 1
-      - key: NEXT_PUBLIC_API_URL
-        fromService:
-          type: web
-          name: portfolio-backend
-          property: host
 
