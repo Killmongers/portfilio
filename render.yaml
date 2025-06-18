@@ -1,0 +1,38 @@
+# Render Blueprint for deployment with automatic package installation
+services:
+  # Backend Service
+  - type: web
+    name: portfolio-backend
+    env: docker
+    dockerfilePath: ./Dockerfile.backend
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHONPATH
+        value: /app
+      - key: PORT
+        value: 8000
+      - key: PYTHONUNBUFFERED
+        value: 1
+    disk:
+      name: portfolio-data
+      mountPath: /app/data
+      sizeGB: 1
+
+  # Frontend Service  
+  - type: web
+    name: portfolio-frontend
+    env: docker
+    dockerfilePath: ./Dockerfile.frontend
+    plan: free
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NEXT_TELEMETRY_DISABLED
+        value: 1
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: portfolio-backend
+          property: host
+
