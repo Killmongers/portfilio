@@ -74,10 +74,4 @@ def contact(msg: ContactMessage):
 def health():
     return {"status": "ok", "data_file_exists": os.path.exists(DATA_FILE)}
 
-if __name__ == "__main__":
-    import uvicorn
-    if not os.path.exists(DATA_FILE):
-        save_data(load_data())
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
 
