@@ -78,5 +78,6 @@ if __name__ == "__main__":
     import uvicorn
     if not os.path.exists(DATA_FILE):
         save_data(load_data())
-    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
 
