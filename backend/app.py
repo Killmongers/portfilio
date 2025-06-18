@@ -9,20 +9,16 @@ import os
 
 app = FastAPI(title="DevOps Portfolio API", version="1.0.0")
 
-# Configure CORS - Updated to include both localhost and 127.0.0.1
+# Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000", 
-        "http://127.0.0.1:3000",
-        "https://your-portfolio-domain.com"
-    ],
+    allow_origins=["*"],  # In production, specify your domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Data storage file
+# Data storage
 DATA_FILE = "portfolio_data.json"
 
 # Pydantic models
@@ -52,28 +48,11 @@ class Skill(BaseModel):
     level: int
     category: str
 
-class ThemeSettings(BaseModel):
-    primaryColor: str
-    darkMode: bool
-    animations: bool
-    showFloatingElements: bool
-
-class PortfolioData(BaseModel):
-    personalInfo: PersonalInfo
-    projects: List[Project]
-    skills: List[Skill]
-    themeSettings: ThemeSettings
-    lastUpdated: Optional[datetime] = None
-
 class ContactMessage(BaseModel):
     name: str
     email: EmailStr
     subject: str
     message: str
-
-class ContactResponse(BaseModel):
-    message: str
-    timestamp: datetime
 
 # Helper functions
 def load_portfolio_data() -> Dict[str, Any]:
@@ -94,7 +73,7 @@ def save_portfolio_data(data: Dict[str, Any]) -> bool:
         data['lastUpdated'] = datetime.now().isoformat()
         with open(DATA_FILE, 'w') as f:
             json.dump(data, f, indent=2, default=str)
-        print(f"✅ Portfolio data saved successfully to {DATA_FILE}")
+        print(f"✅ Portfolio data saved successfully")
         return True
     except Exception as e:
         print(f"❌ Error saving data: {e}")
@@ -106,7 +85,7 @@ def get_default_data() -> Dict[str, Any]:
         "personalInfo": {
             "name": "Alex Kumar",
             "title": "DevOps Engineer",
-            "description": "Passionate DevOps Engineer focused on automating infrastructure, building CI/CD pipelines, and optimizing cloud deployments. Ready to streamline your development workflow.",
+            "description": "Passionate DevOps Engineer focused on automating infrastructure, building CI/CD pipelines, and optimizing cloud deployments.",
             "email": "alex.kumar@example.com",
             "phone": "+1 (555) 123-4567",
             "location": "Bangalore, India",
@@ -122,7 +101,7 @@ def get_default_data() -> Dict[str, Any]:
                 "technologies": ["Jenkins", "Docker", "Kubernetes", "AWS", "Terraform"],
                 "github_url": "https://github.com/example/cicd-pipeline",
                 "live_url": "https://pipeline-demo.example.com",
-                "image_url": "cicd",
+                "image_url": "🚀",
                 "featured": True
             },
             {
@@ -132,7 +111,7 @@ def get_default_data() -> Dict[str, Any]:
                 "technologies": ["Terraform", "Ansible", "AWS", "CloudFormation", "Python"],
                 "github_url": "https://github.com/example/iac-project",
                 "live_url": "https://infrastructure-demo.example.com",
-                "image_url": "infrastructure",
+                "image_url": "🏗️",
                 "featured": False
             },
             {
@@ -142,34 +121,23 @@ def get_default_data() -> Dict[str, Any]:
                 "technologies": ["Prometheus", "Grafana", "AlertManager", "Docker", "Kubernetes"],
                 "github_url": "https://github.com/example/monitoring-stack",
                 "live_url": "https://monitoring-demo.example.com",
-                "image_url": "monitoring",
+                "image_url": "📊",
                 "featured": True
             }
         ],
         "skills": [
-            {"name": "AWS", "level": 75, "category": "Cloud Platforms"},
-            {"name": "Azure", "level": 70, "category": "Cloud Platforms"},
-            {"name": "Google Cloud", "level": 60, "category": "Cloud Platforms"},
-            {"name": "DigitalOcean", "level": 80, "category": "Cloud Platforms"},
-            {"name": "Jenkins", "level": 80, "category": "CI/CD & Automation"},
+            {"name": "AWS", "level": 85, "category": "Cloud Platforms"},
+            {"name": "Azure", "level": 75, "category": "Cloud Platforms"},
+            {"name": "Google Cloud", "level": 70, "category": "Cloud Platforms"},
+            {"name": "Jenkins", "level": 90, "category": "CI/CD & Automation"},
             {"name": "GitHub Actions", "level": 85, "category": "CI/CD & Automation"},
-            {"name": "GitLab CI", "level": 75, "category": "CI/CD & Automation"},
-            {"name": "Ansible", "level": 70, "category": "CI/CD & Automation"},
-            {"name": "Docker", "level": 85, "category": "Containerization"},
-            {"name": "Kubernetes", "level": 75, "category": "Containerization"},
-            {"name": "Docker Compose", "level": 90, "category": "Containerization"},
-            {"name": "Helm", "level": 65, "category": "Containerization"},
-            {"name": "Terraform", "level": 78, "category": "Infrastructure & Monitoring"},
-            {"name": "Prometheus", "level": 70, "category": "Infrastructure & Monitoring"},
-            {"name": "Grafana", "level": 75, "category": "Infrastructure & Monitoring"},
-            {"name": "ELK Stack", "level": 65, "category": "Infrastructure & Monitoring"}
+            {"name": "GitLab CI", "level": 80, "category": "CI/CD & Automation"},
+            {"name": "Docker", "level": 95, "category": "Containerization"},
+            {"name": "Kubernetes", "level": 85, "category": "Containerization"},
+            {"name": "Terraform", "level": 88, "category": "Infrastructure & Monitoring"},
+            {"name": "Prometheus", "level": 80, "category": "Infrastructure & Monitoring"},
+            {"name": "Grafana", "level": 85, "category": "Infrastructure & Monitoring"}
         ],
-        "themeSettings": {
-            "primaryColor": "#3b82f6",
-            "darkMode": True,
-            "animations": True,
-            "showFloatingElements": True
-        },
         "lastUpdated": datetime.now().isoformat()
     }
 
@@ -214,21 +182,6 @@ async def get_projects():
         print(f"❌ Error loading projects: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to load projects: {str(e)}")
 
-@app.get("/api/projects/{project_id}")
-async def get_project(project_id: str):
-    """Get a specific project by ID"""
-    try:
-        data = load_portfolio_data()
-        projects = data.get("projects", [])
-        project = next((p for p in projects if p["id"] == project_id), None)
-        if not project:
-            raise HTTPException(status_code=404, detail="Project not found")
-        return project
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to load project: {str(e)}")
-
 @app.get("/api/skills")
 async def get_skills():
     """Get all skills organized by category"""
@@ -252,18 +205,6 @@ async def get_skills():
     except Exception as e:
         print(f"❌ Error loading skills: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to load skills: {str(e)}")
-
-@app.get("/api/personal-info")
-async def get_personal_info():
-    """Get personal information"""
-    try:
-        data = load_portfolio_data()
-        personal_info = data.get("personalInfo", {})
-        print(f"📤 Sending personal info for: {personal_info.get('name', 'Unknown')}")
-        return personal_info
-    except Exception as e:
-        print(f"❌ Error loading personal info: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to load personal info: {str(e)}")
 
 @app.post("/api/contact")
 async def send_contact_message(contact: ContactMessage):
@@ -298,51 +239,14 @@ async def send_contact_message(contact: ContactMessage):
         
         print(f"✅ Contact message saved successfully")
         
-        return ContactResponse(
-            message="Thank you for your message! I'll get back to you soon.",
-            timestamp=datetime.now()
-        )
+        return {
+            "message": "Thank you for your message! I'll get back to you soon.",
+            "timestamp": datetime.now()
+        }
     except Exception as e:
         print(f"❌ Error processing contact message: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to process message: {str(e)}")
 
-@app.get("/api/contact-messages")
-async def get_contact_messages():
-    """Get all contact messages (admin only)"""
-    try:
-        contacts_file = "contact_messages.json"
-        if os.path.exists(contacts_file):
-            with open(contacts_file, 'r') as f:
-                contacts = json.load(f)
-                print(f"📤 Sending {len(contacts)} contact messages")
-                return contacts
-        return []
-    except Exception as e:
-        print(f"❌ Error loading contact messages: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to load contact messages: {str(e)}")
-
-@app.get("/api/stats")
-async def get_portfolio_stats():
-    """Get portfolio statistics"""
-    try:
-        data = load_portfolio_data()
-        
-        stats = {
-            "totalProjects": len(data.get("projects", [])),
-            "featuredProjects": len([p for p in data.get("projects", []) if p.get("featured", False)]),
-            "totalSkills": len(data.get("skills", [])),
-            "skillCategories": len(set(skill["category"] for skill in data.get("skills", []))),
-            "lastUpdated": data.get("lastUpdated"),
-            "averageSkillLevel": sum(skill["level"] for skill in data.get("skills", [])) / len(data.get("skills", [])) if data.get("skills") else 0
-        }
-        
-        print(f"📊 Sending portfolio stats: {stats['totalProjects']} projects, {stats['totalSkills']} skills")
-        return stats
-    except Exception as e:
-        print(f"❌ Error loading stats: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to load stats: {str(e)}")
-
-# Health check endpoint
 @app.get("/health")
 async def health_check():
     return {
@@ -359,6 +263,9 @@ if __name__ == "__main__":
     
     print(f"📁 Portfolio data file: {os.path.abspath(DATA_FILE)}")
     print("🌐 Starting FastAPI server...")
-    print("📡 Frontend should connect to: http://127.0.0.1:8000")
+    print("📱 Frontend: Open index.html in your browser")
+    print("🔧 Backend: http://localhost:8000")
+    print("📚 API docs: http://localhost:8000/docs")
+    
     uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
 

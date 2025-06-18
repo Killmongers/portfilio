@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Kumar - DevOps Engineer Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .hero .description {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            opacity: 0.8;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            text-align: center;
+        }
+
+        .about-avatar {
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h3 {
+            margin-bottom: 1.5rem;
+            color: #667eea;
+            font-size: 1.3rem;
+        }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 2s ease-out;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .project-description {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tech-tag {
+            background: #e9ecef;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            padding: 0.5rem 1rem;
+            border: 2px solid #667eea;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .project-link:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e9ecef;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-avatar {
+                width: 200px;
+                height: 200px;
+                font-size: 3rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .projects-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <div class="logo">DevOps Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-avatar" id="heroAvatar">AK</div>
+            <h1 id="heroName">Alex Kumar</h1>
+            <div class="subtitle" id="heroTitle">DevOps Engineer</div>
+            <p class="description" id="heroDescription">
+                Passionate DevOps Engineer focused on automating infrastructure, building CI/CD pipelines, 
+                and optimizing cloud deployments. Ready to streamline your development workflow.
+            </p>
+            <div class="cta-buttons">
+                <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                <a href="#" class="btn btn-secondary" onclick="downloadCV()">Download CV</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section fade-in">
+        <div class="container">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        As a passionate DevOps engineer, I specialize in bridging the gap between development 
+                        and operations teams. My expertise lies in automating infrastructure, implementing 
+                        robust CI/CD pipelines, and optimizing cloud deployments for maximum efficiency.
+                    </p>
+                    <p>
+                        I have hands-on experience with cloud platforms like AWS and Azure, containerization 
+                        with Docker and Kubernetes, and building reliable deployment pipelines that reduce 
+                        time-to-market while maintaining high quality standards.
+                    </p>
+                    <p>
+                        I'm committed to continuous learning and staying updated with the latest DevOps 
+                        practices and tools to deliver scalable, secure, and efficient solutions.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <div class="about-avatar" id="aboutAvatar">AK</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section fade-in">
+        <div class="container">
+            <h2 class="section-title">Skills & Technologies</h2>
+            <div class="skills-grid" id="skillsGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading skills...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section fade-in">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid" id="projectsGrid">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <p>Loading projects...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section fade-in">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <div class="contact-info" id="contactInfo">
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <h3>Email</h3>
+                            <p id="contactEmail">alex.kumar@example.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <h3>Phone</h3>
+                            <p id="contactPhone">+1 (555) 123-4567</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <h3>Location</h3>
+                            <p id="contactLocation">Bangalore, India</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-link" id="githubLink">🔗</a>
+                <a href="#" class="social-link" id="linkedinLink">💼</a>
+                <a href="#" class="social-link" id="emailLink">📧</a>
+            </div>
+            <p>&copy; 2024 Alex Kumar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:8000';
+        
+        // Portfolio data
+        let portfolioData = {
+            personalInfo: {
+                name: "Alex Kumar",
+                title: "DevOps Engineer",
+                description: "Passionate DevOps Engineer focused on automating infrastructure, building CI/CD pipelines, and optimizing cloud deployments.",
+                email: "alex.kumar@example.com",
+                phone: "+1 (555) 123-4567",
+                location: "Bangalore, India",
+                github: "https://github.com",
+                linkedin: "https://linkedin.com",
+                avatar: "AK"
+            },
+            projects: [],
+            skills: []
+        };
+
+        // Initialize the portfolio
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPortfolioData();
+            setupScrollAnimations();
+            setupSmoothScrolling();
+            setupContactForm();
+        });
+
+        // Load portfolio data from API
+        async function loadPortfolioData() {
+            try {
+                showLoading('skillsGrid');
+                showLoading('projectsGrid');
+
+                const response = await fetch(`${API_BASE_URL}/api/portfolio`);
+                if (response.ok) {
+                    portfolioData = await response.json();
+                    console.log('✅ Portfolio data loaded from backend');
+                } else {
+                    console.log('⚠️ Backend not available, using default data');
+                    loadDefaultData();
+                }
+            } catch (error) {
+                console.log('⚠️ Backend connection failed, using default data');
+                loadDefaultData();
+            }
+
+            updateUI();
+            hideLoading('skillsGrid');
+            hideLoading('projectsGrid');
+        }
+
+        // Load default data if backend is not available
+        function loadDefaultData() {
+            portfolioData.projects = [
+                {
+                    id: "1",
+                    title: "Automated CI/CD Pipeline",
+                    description: "Built a complete CI/CD pipeline using Jenkins and Docker for a microservices application, reducing deployment time by 70%.",
+                    technologies: ["Jenkins", "Docker", "Kubernetes", "AWS", "Terraform"],
+                    github_url: "https://github.com/example/cicd-pipeline",
+                    live_url: "https://pipeline-demo.example.com",
+                    image_url: "🚀",
+                    featured: true
+                },
+                {
+                    id: "2",
+                    title: "Infrastructure as Code",
+                    description: "Designed and implemented cloud infrastructure using Terraform and Ansible, managing 50+ AWS resources.",
+                    technologies: ["Terraform", "Ansible", "AWS", "CloudFormation", "Python"],
+                    github_url: "https://github.com/example/iac-project",
+                    live_url: "https://infrastructure-demo.example.com",
+                    image_url: "🏗️",
+                    featured: false
+                },
+                {
+                    id: "3",
+                    title: "Monitoring & Alerting System",
+                    description: "Implemented comprehensive monitoring solution using Prometheus, Grafana, and AlertManager.",
+                    technologies: ["Prometheus", "Grafana", "AlertManager", "Docker", "Kubernetes"],
+                    github_url: "https://github.com/example/monitoring-stack",
+                    live_url: "https://monitoring-demo.example.com",
+                    image_url: "📊",
+                    featured: true
+                }
+            ];
+
+            portfolioData.skills = [
+                { name: "AWS", level: 85, category: "Cloud Platforms" },
+                { name: "Azure", level: 75, category: "Cloud Platforms" },
+                { name: "Google Cloud", level: 70, category: "Cloud Platforms" },
+                { name: "Jenkins", level: 90, category: "CI/CD & Automation" },
+                { name: "GitHub Actions", level: 85, category: "CI/CD & Automation" },
+                { name: "GitLab CI", level: 80, category: "CI/CD & Automation" },
+                { name: "Docker", level: 95, category: "Containerization" },
+                { name: "Kubernetes", level: 85, category: "Containerization" },
+                { name: "Terraform", level: 88, category: "Infrastructure & Monitoring" },
+                { name: "Prometheus", level: 80, category: "Infrastructure & Monitoring" },
+                { name: "Grafana", level: 85, category: "Infrastructure & Monitoring" }
+            ];
+        }
+
+        // Update UI with portfolio data
+        function updateUI() {
+            const { personalInfo, projects, skills } = portfolioData;
+
+            // Update personal info
+            document.getElementById('heroName').textContent = personalInfo.name;
+            document.getElementById('heroTitle').textContent = personalInfo.title;
+            document.getElementById('heroDescription').textContent = personalInfo.description;
+            document.getElementById('heroAvatar').textContent = personalInfo.avatar;
+            document.getElementById('aboutAvatar').textContent = personalInfo.avatar;
+            
+            document.getElementById('contactEmail').textContent = personalInfo.email;
+            document.getElementById('contactPhone').textContent = personalInfo.phone;
+            document.getElementById('contactLocation').textContent = personalInfo.location;
+
+            // Update social links
+            document.getElementById('githubLink').href = personalInfo.github;
+            document.getElementById('linkedinLink').href = personalInfo.linkedin;
+            document.getElementById('emailLink').href = `mailto:${personalInfo.email}`;
+
+            // Render skills
+            renderSkills(skills);
+
+            // Render projects
+            renderProjects(projects);
+        }
+
+        // Render skills section
+        function renderSkills(skills) {
+            const skillsGrid = document.getElementById('skillsGrid');
+            
+            // Group skills by category
+            const skillsByCategory = {};
+            skills.forEach(skill => {
+                if (!skillsByCategory[skill.category]) {
+                    skillsByCategory[skill.category] = [];
+                }
+                skillsByCategory[skill.category].push(skill);
+            });
+
+            skillsGrid.innerHTML = '';
+            
+            Object.entries(skillsByCategory).forEach(([category, categorySkills]) => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'skill-category';
+                
+                categoryDiv.innerHTML = `
+                    <h3>${category}</h3>
+                    ${categorySkills.map(skill => `
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>${skill.name}</span>
+                                <span>${skill.level}%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" data-level="${skill.level}"></div>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+                
+                skillsGrid.appendChild(categoryDiv);
+            });
+
+            // Animate skill bars
+            setTimeout(() => {
+                document.querySelectorAll('.skill-progress').forEach(bar => {
+                    const level = bar.getAttribute('data-level');
+                    bar.style.width = level + '%';
+                });
+            }, 500);
+        }
+
+        // Render projects section
+        function renderProjects(projects) {
+            const projectsGrid = document.getElementById('projectsGrid');
+            
+            projectsGrid.innerHTML = projects.map(project => `
+                <div class="project-card">
+                    <div class="project-image">${project.image_url}</div>
+                    <div class="project-content">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tech">
+                            ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                        </div>
+                        <div class="project-links">
+                            <a href="${project.github_url}" target="_blank" class="project-link">Code</a>
+                            <a href="${project.live_url}" target="_blank" class="project-link">Demo</a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Setup scroll animations
+        function setupScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Setup smooth scrolling
+        function setupSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Setup contact form
+        function setupContactForm() {
+            document.getElementById('contactForm').addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    subject: formData.get('subject'),
+                    message: formData.get('message')
+                };
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/contact`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (response.ok) {
+                        alert('✅ Message sent successfully! I\'ll get back to you soon.');
+                        this.reset();
+                    } else {
+                        throw new Error('Failed to send message');
+                    }
+                } catch (error) {
+                    console.log('Contact form submitted locally:', data);
+                    alert('✅ Message received! (Backend not available, but form data logged)');
+                    this.reset();
+                }
+            });
+        }
+
+        // Download CV function
+        function downloadCV() {
+            const cvContent = generateCVContent();
+            const blob = new Blob([cvContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${portfolioData.personalInfo.name.replace(/\s+/g, '_')}_CV.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Generate CV content
+        function generateCVContent() {
+            const { personalInfo, projects, skills } = portfolioData;
+            
+            let cv = `
+${personalInfo.name.toUpperCase()}
+${personalInfo.title}
+${'='.repeat(50)}
+
+CONTACT INFORMATION
+${'-'.repeat(20)}
+Email: ${personalInfo.email}
+Phone: ${personalInfo.phone}
+Location: ${personalInfo.location}
+GitHub: ${personalInfo.github}
+LinkedIn: ${personalInfo.linkedin}
+
+PROFESSIONAL SUMMARY
+${'-'.repeat(20)}
+${personalInfo.description}
+
+TECHNICAL SKILLS
+${'-'.repeat(20)}`;
+
+            // Group skills by category
+            const skillsByCategory = {};
+            skills.forEach(skill => {
+                if (!skillsByCategory[skill.category]) {
+                    skillsByCategory[skill.category] = [];
+                }
+                skillsByCategory[skill.category].push(skill);
+            });
+
+            Object.entries(skillsByCategory).forEach(([category, categorySkills]) => {
+                cv += `\n\n${category}:\n`;
+                categorySkills.forEach(skill => {
+                    cv += `• ${skill.name} (${skill.level}%)\n`;
+                });
+            });
+
+            cv += `\n\nPROJECTS\n${'-'.repeat(20)}`;
+
+            projects.forEach((project, index) => {
+                cv += `\n\n${index + 1}. ${project.title}`;
+                if (project.featured) cv += ' ⭐ FEATURED';
+                cv += `\n   ${project.description}`;
+                cv += `\n   Technologies: ${project.technologies.join(', ')}`;
+                cv += `\n   GitHub: ${project.github_url}`;
+                cv += `\n   Live Demo: ${project.live_url}`;
+            });
+
+            cv += `\n\n${'='.repeat(50)}\nGenerated from Portfolio - ${new Date().toLocaleDateString()}`;
+
+            return cv;
+        }
+
+        // Utility functions
+        function showLoading(elementId) {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `
+                <div class="loading" style="display: block;">
+                    <div class="spinner"></div>
+                    <p>Loading...</p>
+                </div>
+            `;
+        }
+
+        function hideLoading(elementId) {
+            const loadingElement = document.querySelector(`#${elementId} .loading`);
+            if (loadingElement) {
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        // Admin functions (for testing)
+        window.adminFunctions = {
+            updatePersonalInfo: function(info) {
+                portfolioData.personalInfo = { ...portfolioData.personalInfo, ...info };
+                updateUI();
+            },
+            addProject: function(project) {
+                portfolioData.projects.push({ ...project, id: Date.now().toString() });
+                renderProjects(portfolioData.projects);
+            },
+            addSkill: function(skill) {
+                portfolioData.skills.push(skill);
+                renderSkills(portfolioData.skills);
+            },
+            getPortfolioData: function() {
+                return portfolioData;
+            }
+        };
+    </script>
+</body>
+</html>
+
