@@ -927,28 +927,8 @@
         }
 
 async function downloadCV() {
-    try {
-        const response = await fetch('https://portfilio-x9fi.onrender.com/download-pdf');
 
-        if (!response.ok) {
-            throw new Error('Failed to download CV');
-        }
-
-        const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'My_CV.pdf';  // Change to your preferred filename
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
-    } catch (error) {
-        console.error('Error downloading CV:', error);
-        alert('Could not download CV. Please try again later.');
-    }
+    window.open('https://portfilio-x9fi.onrender.com/download-pdf', '_blank');
 }
         // Utility functions
         function showLoading(elementId) {
