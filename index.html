@@ -928,7 +928,7 @@
 
 async function downloadCV() {
     try {
-        const response = await fetch('/download-pdf');
+        const response = await fetch('https://portfilio-x9fi.onrender.com/download-pdf');
 
         if (!response.ok) {
             throw new Error('Failed to download CV');
