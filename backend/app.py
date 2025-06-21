@@ -27,3 +27,13 @@ def download_pdf():
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="PDF file not found")
 
+@app.get("/view-pdf")
+def view_pdf():
+    try:
+        file = open("AzureDevops.pdf", "rb")
+        return StreamingResponse(file, media_type="application/pdf", headers={
+              "Content-Disposition": 'inline; filename="My_CV.pdf"'
+          })
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail="PDF file not found")
+
