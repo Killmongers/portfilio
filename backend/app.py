@@ -22,7 +22,7 @@ def download_pdf():
     try:
         file = open("file.pdf", "rb")
         return StreamingResponse(file, media_type="application/pdf", headers={
-            "Content-Disposition": 'attachment; filename="My_CV.pdf"'
+            "Content-Disposition": 'inline; filename="My_CV.pdf"'
         })
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail="PDF file not found")
