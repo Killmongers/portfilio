@@ -534,7 +534,7 @@
             </p>
             <div class="cta-buttons">
                 <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                <a href="#" class="btn btn-secondary" onclick="downloadCV()">Download CV</a>
+                <a href="#" class="btn btn-secondary" onclick="downloadCV()">View CV</a>
             </div>
         </div>
     </section>
@@ -926,76 +926,30 @@
             });
         }
 
-        // Download CV function
-        function downloadCV() {
-            const cvContent = generateCVContent();
-            const blob = new Blob([cvContent], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${portfolioData.personalInfo.name.replace(/\s+/g, '_')}_CV.txt`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+async function downloadCV() {
+    try {
+        const response = await fetch('/download-pdf');
+
+        if (!response.ok) {
+            throw new Error('Failed to download CV');
         }
 
-        // Generate CV content
-        function generateCVContent() {
-            const { personalInfo, projects, skills } = portfolioData;
-            
-            let cv = `
-${personalInfo.name.toUpperCase()}
-${personalInfo.title}
-${'='.repeat(50)}
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
 
-CONTACT INFORMATION
-${'-'.repeat(20)}
-Email: ${personalInfo.email}
-Phone: ${personalInfo.phone}
-Location: ${personalInfo.location}
-GitHub: ${personalInfo.github}
-LinkedIn: ${personalInfo.linkedin}
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'My_CV.pdf';  // Change to your preferred filename
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
 
-PROFESSIONAL SUMMARY
-${'-'.repeat(20)}
-${personalInfo.description}
-
-TECHNICAL SKILLS
-${'-'.repeat(20)}`;
-
-            // Group skills by category
-            const skillsByCategory = {};
-            skills.forEach(skill => {
-                if (!skillsByCategory[skill.category]) {
-                    skillsByCategory[skill.category] = [];
-                }
-                skillsByCategory[skill.category].push(skill);
-            });
-
-            Object.entries(skillsByCategory).forEach(([category, categorySkills]) => {
-                cv += `\n\n${category}:\n`;
-                categorySkills.forEach(skill => {
-                    cv += `• ${skill.name} (${skill.level}%)\n`;
-                });
-            });
-
-            cv += `\n\nPROJECTS\n${'-'.repeat(20)}`;
-
-            projects.forEach((project, index) => {
-                cv += `\n\n${index + 1}. ${project.title}`;
-                if (project.featured) cv += ' ⭐ FEATURED';
-                cv += `\n   ${project.description}`;
-                cv += `\n   Technologies: ${project.technologies.join(', ')}`;
-                cv += `\n   GitHub: ${project.github_url}`;
-                cv += `\n   Live Demo: ${project.live_url}`;
-            });
-
-            cv += `\n\n${'='.repeat(50)}\nGenerated from Portfolio - ${new Date().toLocaleDateString()}`;
-
-            return cv;
-        }
-
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error('Error downloading CV:', error);
+        alert('Could not download CV. Please try again later.');
+    }
+}
         // Utility functions
         function showLoading(elementId) {
             const element = document.getElementById(elementId);
