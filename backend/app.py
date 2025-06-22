@@ -19,7 +19,7 @@ app.add_middleware(
 
 @app.get('/')
 def home():
-    return{message:"welcome to home"}
+    return{"message":"welcome to home"}
 
 @app.get("/download-pdf")
 def download_pdf():
